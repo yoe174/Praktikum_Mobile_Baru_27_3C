@@ -519,7 +519,7 @@ handleDone: Menutup sink saat stream selesai.
 
 ### **Langkah 1**
 
-ambah variabel
+Tambah vriabel
 Tambahkan variabel berikut di class _StreamHomePageState
 ```
 late StreamSubscription subscription;
@@ -624,3 +624,88 @@ Anda akan melihat pesan di Debug Console seperti berikut.
 * Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
 
 ![Screenshoot yonatan](image/soal-9.gif)
+
+## **Pratikum 5**
+
+### **Langkah 1**
+
+Buka file main.dart
+Ketik variabel berikut di class _StreamHomePageState
+```
+ late StreamSubscription subscription2;
+  String values = '';
+```
+### **Langkah 2**
+
+Edit initState()
+Ketik kode seperti berikut.
+```
+subscription = stream.listen((event) {
+      setState(() {
+        values += '$event - ';
+      });
+    });
+    subscription2 = stream.listen((event) {
+      setState(() {
+        values += '$event - ';
+      });
+    });
+```
+### **Langkah 3**
+
+Lakukan run maka akan tampil error seperti gambar berikut
+
+![Screenshoot yonatan](image/P5-3.png)
+
+### ```Soal 10```
+
+* Jelaskan mengapa error itu bisa terjadi ?
+
+**jawab**
+
+error tersebut erjadi karena Stream default hanya dapat didengarkan (listened) oleh satu pendengar (listener) pada satu waktu.
+
+berikut adalah penjelasannya: 
+
+* pada langkah 2,kode mencoba untuk membuat dua listener (subscription dan subscription2) pada satu Stream yang sama.
+
+* Stream yang digunakan adalah single-subscription stream, yang merupakan tipe bawaan untuk Stream di Dart. Jenis ini hanya mendukung satu listener aktif.
+
+* Ketika menambahkan listener kedua (subscription2), Dart memunculkan error karena Stream sudah dalam keadaan "didengarkan" oleh listener pertama (subscription).
+
+### **Langkah 4**
+
+Set broadcast stream
+Ketik kode seperti berikut di method initState()
+```
+Stream stream = numberStreamController.stream.asBroadcastStream();
+```
+### **Langkah 5**
+
+Edit method build()
+Tambahkan text seperti berikut
+```
+Text(values),
+```
+### **Langkah 6**
+
+Run, Tekan button ‘New Random Number' beberapa kali, maka akan tampil teks angka terus bertambah sebanyak dua kali.
+
+![Screenshoot yonatan](image/P5-6.png)
+
+### ```Soal 11```
+
+* Jelaskan mengapa hal itu bisa terjadi ?
+
+**jawab**
+
+pada langkah yang dilakukan akan menampilkan angka 2 sebanyak 2 kali, Hal ini terjadi karena dua listener (subscription dan subscription2) aktif mendengarkan stream yang sama. Dengan menggunakan broadcast stream, setiap event yang dikirim oleh stream diterima oleh semua listener yang terdaftar. Akibatnya:
+
+* Listener pertama (subscription) menambahkan angka ke variabel values.
+
+* Listener kedua (subscription2) juga menambahkan angka yang sama ke variabel values.
+Karena kedua listener melakukan operasi yang sama, hasilnya setiap angka yang di-broadcast muncul dua kali di variabel values.
+
+* Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+
+![Screenshoot yonatan](image/soal-11.gif)

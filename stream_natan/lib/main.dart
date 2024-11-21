@@ -1,4 +1,3 @@
-// import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'stream.dart';
 import 'dart:async';
@@ -39,6 +38,9 @@ class _StreamHomepageState extends State<StreamHomepage> {
   late StreamTransformer transformer;
   late StreamSubscription subscription;
 
+  late StreamSubscription subscription2;
+  String values = '';
+
   void changeColor() async {
     // langkah 9
     // await for (var eventColor in colorStream.getColors()) {
@@ -61,11 +63,17 @@ class _StreamHomepageState extends State<StreamHomepage> {
     // changeColor();
     numberStream = NumberStream();
     numberStreamController = numberStream.controller;
-    Stream stream = numberStreamController.stream;
+    Stream stream = numberStreamController.stream.asBroadcastStream();
 
     subscription = stream.listen((event) {
       setState(() {
-        lastNumber = event;
+        // lastNumber = event;
+        values += '$event - ';
+      });
+    });
+    subscription2 = stream.listen((event) {
+      setState(() {
+        values += '$event - ';
       });
     });
     subscription.onError((error) {
@@ -111,7 +119,8 @@ class _StreamHomepageState extends State<StreamHomepage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(lastNumber.toString()),
+            Text(values),
+            // Text(lastNumber.toString()),
             ElevatedButton(
               onPressed: () => addRandomNumber(),
               child: Text('New Random Number'),
