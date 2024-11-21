@@ -459,3 +459,168 @@ Lakukan comment pada dua baris kode berikut, lalu ketik kode seperti berikut ini
     // numberStream.addError();
   }
 ```
+
+## **Pratikum 3**
+
+### **Langkah 1**
+
+Buka main.dart Tambahkan variabel baru di dalam class _StreamHomePageState
+```
+late StreamTransformer transformer;
+```
+### **Langkah 2**
+
+Tambahkan kode ini di initState
+```
+transformer = StreamTransformer<int, int>.fromHandlers(
+      handleData: (value, sink) {
+        sink.add(value * 10);
+      },
+      handleError: (error, trace, sink) {
+        sink.add(-1);
+      },
+      handleDone: (sink) => sink.close()
+    );
+```
+### **Langkah 3**
+
+Tetap di initState
+Lakukan edit seperti kode berikut.
+```
+stream.transform(transformer).listen((event) {
+```
+### **Langkah 4**
+
+Run
+
+### ```Soal 8```
+
+* Jelaskan maksud kode langkah 1-3 tersebut!
+
+**jawab**
+
+- Langkah 1: Mendeklarasikan StreamTransformer bertipe int, yang akan digunakan untuk mengubah data dalam aliran stream.
+
+- Langkah 2: Menginisialisasi StreamTransformer dengan logika:
+
+handleData: Mengalikan nilai dalam stream dengan 10.
+
+handleError: Menangani error dengan mengirim nilai -1.
+
+handleDone: Menutup sink saat stream selesai.
+
+* Langkah 3: Menghubungkan stream dengan transformer menggunakan stream.transform(transformer). Hasil transformasi kemudian diproses dalam listener untuk diperbarui ke UI.
+
+* Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+
+![Screenshoot yonatan](image/soal-8.gif)
+
+## **Pratikum 4**
+
+### **Langkah 1**
+
+ambah variabel
+Tambahkan variabel berikut di class _StreamHomePageState
+```
+late StreamSubscription subscription;
+```
+### **Langkah 2**
+
+Edit initState()
+Edit kode seperti berikut ini.
+```
+subscription = stream.listen((event) {
+      setState(() {
+        lastNumber = event;
+      });
+    });
+```
+### **Langkah 3**
+
+Tetap di initState()
+Tambahkan kode berikut ini.
+```
+subscription.onError((error) {
+      setState(() {
+        lastNumber = -1;
+      });
+    });
+```
+### **Langkah 4**
+
+Tambah properti onDone()
+Tambahkan dibawahnya kode ini setelah onError
+```
+subscription.onDone(() {
+      print('onDone was called');
+    });
+```
+### **Langkah 5**
+
+Tambah method baru
+Ketik method ini di dalam class _StreamHomePageState
+```
+void stopStream() {
+    numberStreamController.close();
+  }
+```
+### **Langkah 6**
+
+Pindah ke method dispose()
+Jika method dispose() belum ada, Anda dapat mengetiknya dan dibuat override. Ketik kode ini didalamnya.
+
+### **Langkah 7**
+
+Pindah ke method build()
+Tambahkan button kedua dengan isi kode seperti berikut ini.
+```
+ElevatedButton(
+              onPressed: () => stopStream(),
+              child: Text('Stop Subsciption'),
+            ),
+```
+### **Langkah 8**
+
+Edit method addRandomNumber()
+Edit kode seperti berikut ini.
+```
+void addRandomNumber() {
+    Random random = Random();
+    int myNum = random.nextInt(10);
+    if (!numberStreamController.isClosed) {
+      numberStream.addNumberToSink(myNum);
+    } else {
+      setState(() {
+        lastNumber = -1;
+      });
+    }
+  }
+```
+### **Langkah 9**
+
+Run. Anda akan melihat dua button seperti gambar berikut.
+
+![Screenshoot yonatan](image/P4-9.png)
+
+### **Langkah 10**
+
+Tekan button ‘Stop Subscription'
+Anda akan melihat pesan di Debug Console seperti berikut.
+
+![Screenshoot yonatan](image/P4-10.png)
+
+### ```Soal 9```
+
+* Jelaskan maksud kode langkah 2, 6 dan 8 tersebut!
+
+**jawab**
+
+- pada langkah 2, Membuat subscription untuk mendengarkan stream dan memperbarui nilai lastNumber setiap kali ada data baru (event) di stream.
+
+- pada langkah 6, Menutup numberStreamController saat widget dihapus (disposed) agar tidak ada kebocoran memori.
+
+- pada langkah 8, Menghasilkan angka acak dan menambahkannya ke stream jika controller belum ditutup. Jika sudah ditutup, lastNumber diset ke -1 untuk menandakan stream tidak aktif.
+
+* Capture hasil praktikum Anda berupa GIF dan lampirkan di README.
+
+![Screenshoot yonatan](image/soal-9.gif)
