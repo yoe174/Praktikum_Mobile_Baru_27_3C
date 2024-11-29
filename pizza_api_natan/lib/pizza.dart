@@ -13,12 +13,21 @@ class Pizza {
         imageUrl = json['imageUrl'];
 
   Map<String, dynamic> toJson() {
-    return ({
+    return {
       'id': id,
       'pizzaName': pizzaName,
       'description': description,
       'price': price,
       'imageUrl': imageUrl,
-    });
+    };
   }
+
+  // Unnamed constructor
+  Pizza({
+    required this.id,
+    required this.pizzaName,
+    required this.description,
+    required this.price,
+    required this.imageUrl,
+  });
 }

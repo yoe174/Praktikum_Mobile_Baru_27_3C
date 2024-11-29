@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pizza_api_natan/httphelper.dart';
 import 'package:pizza_api_natan/pizza.dart';
+import 'package:pizza_api_natan/pizza_detail.dart';
 
 void main() {
   runApp(const MyApp());
@@ -62,6 +63,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 });
           }),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const PizzaDetailScreen()));
+        },
+      ),
     );
   }
 }
