@@ -60,18 +60,38 @@ class _MyHomePageState extends State<MyHomePage> {
                     subtitle: Text(snapshot.data![position].description +
                         ' - € ' +
                         snapshot.data![position].price.toString()),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PizzaDetailScreen(
+                            pizza: snapshot.data![position],
+                            isNew: false,
+                          ),
+                        ),
+                      );
+                    },
                   );
                 });
           }),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const PizzaDetailScreen()));
-        },
-      ),
+                  builder: (context) => PizzaDetailScreen(
+                        pizza: Pizza(
+                          id: 0, // Default ID
+                          pizzaName: '', // Nama kosong untuk pizza baru
+                          description: '', // Deskripsi kosong
+                          price: 0.0, // Harga default
+                          imageUrl: '', // URL gambar kosong
+                        ),
+                        isNew: true,
+                      )),
+            );
+          }),
     );
   }
 }

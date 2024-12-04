@@ -31,4 +31,15 @@ class Httphelper {
     );
     return r.body;
   }
+
+  Future<String> putPizza(Pizza pizza) async {
+    const postPath = '/pizza';
+    String put = json.encode(pizza.toJson());
+    Uri url = Uri.https(authority, postPath);
+    http.Response r = await http.post(
+      url,
+      body : put,
+    );
+    return r.body;
+  }
 }
