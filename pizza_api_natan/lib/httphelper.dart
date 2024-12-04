@@ -27,7 +27,7 @@ class Httphelper {
     Uri url = Uri.https(authority, postPath);
     http.Response r = await http.post(
       url,
-      body : post,
+      body: post,
     );
     return r.body;
   }
@@ -38,7 +38,16 @@ class Httphelper {
     Uri url = Uri.https(authority, postPath);
     http.Response r = await http.post(
       url,
-      body : put,
+      body: put,
+    );
+    return r.body;
+  }
+
+  Future<String> deletePizza(int id) async {
+    const deletePath = '/pizza';
+    Uri url = Uri.https(authority, deletePath);
+    http.Response r = await http.delete(
+      url,
     );
     return r.body;
   }

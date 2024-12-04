@@ -11,3 +11,10 @@
 ## Hasil Praktikum 3
 
 ![Screenshoot hello_world](image/P3.png)
+
+## Hasil Praktikum 4
+
+![Screenshoot hello_world](image/P4.png)
+
+![Screenshoot hello_world](image/p4.gif)
+
